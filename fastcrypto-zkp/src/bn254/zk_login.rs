@@ -126,6 +126,9 @@ pub enum OIDCProvider {
     TestHuionepay,
 
     Huionepay,
+
+    Telegram,
+
 }
 
 impl FromStr for OIDCProvider {
@@ -150,6 +153,7 @@ impl FromStr for OIDCProvider {
             "Arden" => Ok(Self::Arden),
             "TestHuionepay" => Ok(Self::TestHuionepay),
             "Huionepay" => Ok(Self::Huionepay),
+            "Telegram" => Ok(Self::Telegram),
             _ => {
                 let re = Regex::new(
                     r"AwsTenant-region:(?P<region>[^.]+)-tenant_id:(?P<tenant_id>[^/]+)",
@@ -187,6 +191,7 @@ impl ToString for OIDCProvider {
             Self::Arden => "Arden".to_string(),
             Self::Huionepay => "Huionepay".to_string(),
             Self::TestHuionepay => "TestHuionepay".to_string(),
+            Self::Telegram => "Telegram".to_string(),
             Self::AwsTenant((region, tenant_id)) => {
                 format!("AwsTenant-region:{}-tenant_id:{}", region, tenant_id)
             }
@@ -272,6 +277,10 @@ impl OIDCProvider {
                 "https://test.huionepay.com",
                 "https://salt-api-testnet.huione.org/get_keys",
             ),
+            OIDCProvider::Telegram => ProviderConfig::new(
+                "https://tg-accounts.onelabs.cc",
+                "https://tg-accounts.onelabs.cc/auth/jwks",
+            ),
         }
     }
 
@@ -291,6 +300,7 @@ impl OIDCProvider {
             "https://auth.3dos.io" => Ok(Self::Threedos),
             "https://test.huionepay.com" => Ok(Self::TestHuionepay),
             "https://accounts.huionepay.com" => Ok(Self::Huionepay),
+            "https://tg-accounts.onelabs.cc" => Ok(Self::Telegram),
             "https://login.onepassport.onefc.com/de3ee5c1-5644-4113-922d-e8336569a462/v2.0/" => {
                 Ok(Self::Onefc)
             }
